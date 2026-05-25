@@ -1,0 +1,120 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] licensePlates = new String[100];
+        int count = 0;
+        String plateRegex = "^\\d{2}[A-Z]-\\d{3}\\.\\d{2}$";
+
+        while (true) {
+            System.out.println("\n--- QUẢN LÝ BIỂN SỐ XE ---");
+            System.out.println("1. Nhập biển số xe mới");
+            System.out.println("2. Hiển thị danh sách biển số xe");
+            System.out.println("3. Tìm kiếm chính xác biển số xe");
+            System.out.println("4. Tìm biển số xe theo mã tỉnh");
+            System.out.println("5. Sắp xếp biển số xe tăng dần");
+            System.out.println("6. Thoát");
+            System.out.print("Lựa chọn của bạn: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    if (count >= licensePlates.length) {
+                        System.out.println("Hệ thống mảng đã đầy!");
+                        break;
+                    }
+                    System.out.print("Nhập biển số xe (VD: 30F-123.45): ");
+                    String plate = scanner.nextLine().trim();
+                    if (plate.matches(plateRegex)) {
+                        licensePlates[count] = plate;
+                        count++;
+                        System.out.println("Thêm biển số xe thành công!");
+                    } else {
+                        System.out.println("Biển số xe không đúng định dạng (VD mẫu đúng: 30F-123.45)!");
+                    }
+                    break;
+
+                case 2:
+                    if (count == 0) {
+                        System.out.println("Danh sách biển số xe trống!");
+                    } else {
+                        System.out.println("Danh sách biển số xe hiện tại:");
+                        for (int i = 0; i < count; i++) {
+                            System.out.println((i + 1) + ". " + licensePlates[i]);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if (count == 0) {
+                        System.out.println("Danh sách trống!");
+                        break;
+                    }
+                    System.out.print("Nhập biển số xe cần tìm chính xác: ");
+                    String searchPlate = scanner.nextLine().trim();
+                    boolean foundExact = false;
+                    for (int i = 0; i < count; i++) {
+                        if (licensePlates[i].equalsIgnoreCase(searchPlate)) {
+                            System.out.println("Tìm thấy biển số xe tại vị trí số: " + (i + 1));
+                            foundExact = true;
+                            break;
+                        }
+                    }
+                    if (!foundExact) {
+                        System.out.println("Không tìm thấy biển số xe này trong hệ thống.");
+                    }
+                    break;
+
+                case 4:
+                    if (count == 0) {
+                        System.out.println("Danh sách trống!");
+                        break;
+                    }
+                    System.out.print("Nhập mã tỉnh cần tìm (VD: 29, 30, 51): ");
+                    String provinceCode = scanner.nextLine().trim();
+                    boolean foundProvince = false;
+                    StringBuilder sb = new StringBuilder("Kết quả tìm kiếm mã tỉnh " + provinceCode + ":\n");
+                    for (int i = 0; i < count; i++) {
+                        if (licensePlates[i].startsWith(provinceCode)) {
+                            sb.append("- ").append(licensePlates[i]).append("\n");
+                            foundProvince = true;
+                        }
+                    }
+                    if (foundProvince) {
+                        System.out.print(sb.toString());
+                    } else {
+                        System.out.println("Không tìm thấy biển số xe nào thuộc mã tỉnh này.");
+                    }
+                    break;
+
+                case 5:
+                    if (count == 0) {
+                        System.out.println("Danh sách trống, không thể sắp xếp!");
+                        break;
+                    }
+                    for (int i = 0; i < count - 1; i++) {
+                        for (int j = i + 1; j < count; j++) {
+                            if (licensePlates[i].compareTo(licensePlates[j]) > 0) {
+                                String temp = licensePlates[i];
+                                licensePlates[i] = licensePlates[j];
+                                licensePlates[j] = temp;
+                            }
+                        }
+                    }
+                    System.out.println("Đã sắp xếp danh sách biển số xe tăng dần!");
+                    break;
+
+                case 6:
+                    System.out.println("Thoát chương trình.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+}
