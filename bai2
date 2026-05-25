@@ -1,0 +1,98 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[][] users = new String[100][4];
+        int userCount = 0;
+
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        String phoneRegex = "^(03|05|07|08|09)\\d{8}$";
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!^&*()_+\\-=\\[\\]{};':\",.<>/?]).{8,}$";
+
+        while (true) {
+            System.out.println("\n--- MENU QUẢN LÝ NGƯỜI DÙNG ---");
+            System.out.println("1. Đăng ký người dùng mới");
+            System.out.println("2. Hiển thị danh sách người dùng");
+            System.out.println("3. Thoát");
+            System.out.print("Lựa chọn của bạn: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    if (userCount >= users.length) {
+                        System.out.println("Hệ thống đã đầy, không thể thêm người dùng!");
+                        break;
+                    }
+
+                    System.out.print("Nhập họ và tên: ");
+                    String name = scanner.nextLine().trim();
+
+                    String email;
+                    while (true) {
+                        System.out.print("Nhập email: ");
+                        email = scanner.nextLine().trim();
+                        if (email.matches(emailRegex)) {
+                            break;
+                        }
+                        System.out.println("Email không đúng định dạng! Vui lòng nhập lại.");
+                    }
+
+                    String phone;
+                    while (true) {
+                        System.out.print("Nhập số điện thoại: ");
+                        phone = scanner.nextLine().trim();
+                        if (phone.matches(phoneRegex)) {
+                            break;
+                        }
+                        System.out.println("Số điện thoại di động Việt Nam không hợp lệ! Vui lòng nhập lại.");
+                    }
+
+                    String password;
+                    while (true) {
+                        System.out.print("Nhập mật khẩu: ");
+                        password = scanner.nextLine();
+                        if (password.matches(passwordRegex)) {
+                            break;
+                        }
+                        System.out.println("Mật khẩu yếu! Phải từ 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.");
+                    }
+
+                    users[userCount][0] = name;
+                    users[userCount][1] = email;
+                    users[userCount][2] = phone;
+                    users[userCount][3] = password;
+                    userCount++;
+
+                    System.out.println("Đăng ký tài khoản người dùng thành công!");
+                    break;
+
+                case 2:
+                    if (userCount == 0) {
+                        System.out.println("Danh sách người dùng trống!");
+                    } else {
+                        System.out.println("\nDANH SÁCH NGƯỜI DÙNG:");
+                        for (int i = 0; i < userCount; i++) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("STT: ").append(i + 1)
+                              .append(" | Họ tên: ").append(users[i][0])
+                              .append(" | Email: ").append(users[i][1])
+                              .append(" | Điện thoại: ").append(users[i][2]);
+                            System.out.println(sb.toString());
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Thoát chương trình.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+}
