@@ -1,0 +1,123 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double[] scores = new double[0];
+        int n = 0;
+
+        while (true) {
+            System.out.println("\n*******************QUẢN LÝ ĐIỂM SV*******************");
+            System.out.println("1. Nhập danh sách điểm sinh viên");
+            System.out.println("2. In danh sách điểm");
+            System.out.println("3. Tính điểm trung bình của các sinh viên");
+            System.out.println("4. Tìm điểm cao nhất và thấp nhất");
+            System.out.println("5. Đếm số lượng sinh viên đạt và trượt");
+            System.out.println("6. Sắp xếp điểm tăng dần");
+            System.out.println("7. Thống kê số lượng sinh viên giỏi và xuất sắc");
+            System.out.println("8. Thoát");
+            System.out.print("Lựa chọn của bạn: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Nhập số lượng sinh viên: ");
+                    n = scanner.nextInt();
+                    scores = new double[n];
+                    for (int i = 0; i < n; i++) {
+                        System.out.print("Nhập điểm cho sinh viên thứ " + (i + 1) + ": ");
+                        scores[i] = scanner.nextDouble();
+                    }
+                    break;
+                case 2:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        System.out.print("Danh sách điểm sinh viên: ");
+                        for (double score : scores) {
+                            System.out.print(score + "  ");
+                        }
+                        System.out.println();
+                    }
+                    break;
+                case 3:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        double sum = 0;
+                        for (double score : scores) {
+                            sum += score;
+                        }
+                        System.out.printf("Điểm trung bình của các sinh viên: %.2f\n", (sum / n));
+                    }
+                    break;
+                case 4:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        double max = scores[0];
+                        double min = scores[0];
+                        for (int i = 1; i < n; i++) {
+                            if (scores[i] > max) max = scores[i];
+                            if (scores[i] < min) min = scores[i];
+                        }
+                        System.out.println("Điểm cao nhất: " + max);
+                        System.out.println("Điểm thấp nhất: " + min);
+                    }
+                    break;
+                case 5:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        int pass = 0, fail = 0;
+                        for (double score : scores) {
+                            if (score >= 5) {
+                                pass++;
+                            } else {
+                                fail++;
+                            }
+                        }
+                        System.out.println("Số lượng sinh viên đạt (>= 5): " + pass);
+                        System.out.println("Số lượng sinh viên trượt (< 5): " + fail);
+                    }
+                    break;
+                case 6:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        for (int i = 0; i < n - 1; i++) {
+                            for (int j = i + 1; j < n; j++) {
+                                if (scores[i] > scores[j]) {
+                                    double temp = scores[i];
+                                    scores[i] = scores[j];
+                                    scores[j] = temp;
+                                }
+                            }
+                        }
+                        System.out.println("Đã sắp xếp điểm tăng dần thành công! Chọn chức năng 2 để xem.");
+                    }
+                    break;
+                case 7:
+                    if (n == 0) {
+                        System.out.println("Danh sách điểm trống!");
+                    } else {
+                        int countGoodAndExcellent = 0;
+                        for (double score : scores) {
+                            if (score >= 8) {
+                                countGoodAndExcellent++;
+                            }
+                        }
+                        System.out.println("Số lượng sinh viên giỏi và xuất sắc (>= 8): " + countGoodAndExcellent);
+                    }
+                    break;
+                case 8:
+                    System.out.println("Thoát chương trình.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+}
